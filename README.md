@@ -72,11 +72,8 @@ The landing page uses embedded CSS for easy customization. Key color variables a
 
 ### Categories
 Available categories in the manifest:
-- `regular` - Regular sessions
-- `workshop` - Workshops
-- `meeting` - Meetings
-- `training` - Training sessions
-- `orientation` - Orientation sessions
+- `foundry` - Foundry Battle
+- `canyon` - Canyon Battle
 
 ## 🔧 Technical Details
 

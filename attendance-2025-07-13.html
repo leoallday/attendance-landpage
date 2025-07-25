@@ -1,0 +1,411 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="UTF-8">
+    <title>Attendance Report - KOH - Foundry 07/13</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            margin: 20px;
+            background-color: #f5f5f5;
+        }
+        .header {
+            background-color: #4CAF50;
+            color: white;
+            padding: 20px;
+            border-radius: 5px;
+            margin-bottom: 20px;
+        }
+        .stats {
+            background-color: white;
+            padding: 15px;
+            border-radius: 5px;
+            margin-bottom: 20px;
+            box-shadow: 0 2px 4px rgba(0,0,0,0.1);
+        }
+        table {
+            border-collapse: collapse;
+            width: 100%;
+            background-color: white;
+            box-shadow: 0 2px 4px rgba(0,0,0,0.1);
+        }
+        th, td {
+            border: 1px solid #ddd;
+            padding: 12px;
+            text-align: left;
+        }
+        th {
+            background-color: #4CAF50;
+            color: white;
+            font-weight: bold;
+        }
+        tr:nth-child(even) {
+            background-color: #f9f9f9;
+        }
+        tr:hover {
+            background-color: #f5f5f5;
+        }
+        .present { color: #4CAF50; font-weight: bold; }
+        .absent { color: #f44336; font-weight: bold; }
+        .not-signed { color: #9e9e9e; font-weight: bold; }
+        .footer {
+            text-align: center;
+            margin-top: 20px;
+            color: #666;
+            font-size: 12px;
+        }
+    </style>
+</head>
+<body>
+    <div class="header">
+        <h1>Attendance Report</h1>
+        <h2>KOH - Foundry 07/13</h2>
+    </div>
+    
+    <div class="stats">
+        <h3>Summary</h3>
+        <p><strong>Export Date:</strong> 2025-07-25 12:37:40</p>
+        <p><strong>Total Players:</strong> 35</p>
+        <p>
+            <span class="present">Present: 31</span> | 
+            <span class="absent">Absent: 4</span> | 
+            <span class="not-signed">Not Signed: 0</span>
+        </p>
+    </div>
+    
+    <table>
+        <thead>
+            <tr>
+                <th>FID</th>
+                <th>Nickname</th>
+                <th>Status</th>
+                <th>Points</th>
+                <th>Last Event Attendance</th>
+                <th>Marked Date</th>
+                <th>Marked By</th>
+            </tr>
+        </thead>
+        <tbody>
+            <tr>
+                <td>118473881</td>
+                <td>「ᴳᴱᴺᴱᴿᴬᴸHąmðį」</td>
+                <td class="present">Present</td>
+                <td>7,300,000</td>
+                <td>present (2025-07-12)</td>
+                <td>2025-07-14 23:27:15</td>
+                <td>4db.</td>
+            </tr>
+            <tr>
+                <td>120030406</td>
+                <td>「Nader」</td>
+                <td class="present">Present</td>
+                <td>7,100,000</td>
+                <td>present (2025-07-12)</td>
+                <td>2025-07-14 23:27:32</td>
+                <td>4db.</td>
+            </tr>
+            <tr>
+                <td>95477583</td>
+                <td>ALMAFIA ᴷᵂᵀ</td>
+                <td class="present">Present</td>
+                <td>3,200,000</td>
+                <td>present (2025-07-12)</td>
+                <td>2025-07-14 23:27:53</td>
+                <td>4db.</td>
+            </tr>
+            <tr>
+                <td>97490149</td>
+                <td>ღ̶K̶a̶r̶l̶a̶ᴸ</td>
+                <td class="present">Present</td>
+                <td>2,300,000</td>
+                <td>present (2025-07-12)</td>
+                <td>2025-07-14 23:28:12</td>
+                <td>4db.</td>
+            </tr>
+            <tr>
+                <td>85238702</td>
+                <td>أم عباس</td>
+                <td class="present">Present</td>
+                <td>1,500,000</td>
+                <td>present (2025-07-12)</td>
+                <td>2025-07-14 23:28:49</td>
+                <td>4db.</td>
+            </tr>
+            <tr>
+                <td>83594021</td>
+                <td>「Omarx10」</td>
+                <td class="present">Present</td>
+                <td>1,100,000</td>
+                <td>present (2025-07-12)</td>
+                <td>2025-07-14 23:29:13</td>
+                <td>4db.</td>
+            </tr>
+            <tr>
+                <td>92652595</td>
+                <td>OMAR&</td>
+                <td class="present">Present</td>
+                <td>1,000,000</td>
+                <td>present (2025-07-12)</td>
+                <td>2025-07-14 23:29:32</td>
+                <td>4db.</td>
+            </tr>
+            <tr>
+                <td>83823357</td>
+                <td>「yasser」</td>
+                <td class="present">Present</td>
+                <td>592,500</td>
+                <td>present (2025-07-12)</td>
+                <td>2025-07-14 23:29:51</td>
+                <td>4db.</td>
+            </tr>
+            <tr>
+                <td>98019046</td>
+                <td>BRHOOM_2004 ᴊᴏʀ</td>
+                <td class="present">Present</td>
+                <td>581,500</td>
+                <td>present (2025-07-14)</td>
+                <td>2025-07-14 23:35:26</td>
+                <td>4db.</td>
+            </tr>
+            <tr>
+                <td>100197419</td>
+                <td>وانهيدا ³¹³</td>
+                <td class="present">Present</td>
+                <td>546,800</td>
+                <td>N/A</td>
+                <td>2025-07-14 23:31:14</td>
+                <td>4db.</td>
+            </tr>
+            <tr>
+                <td>115267556</td>
+                <td>Maddest</td>
+                <td class="present">Present</td>
+                <td>508,300</td>
+                <td>present (2025-07-12)</td>
+                <td>2025-07-14 23:31:36</td>
+                <td>4db.</td>
+            </tr>
+            <tr>
+                <td>84317290</td>
+                <td>ღ̶L̶è̶o̶ᴷ</td>
+                <td class="present">Present</td>
+                <td>443,900</td>
+                <td>present (2025-07-12)</td>
+                <td>2025-07-14 23:32:28</td>
+                <td>4db.</td>
+            </tr>
+            <tr>
+                <td>81234607</td>
+                <td>°°UAE°°</td>
+                <td class="present">Present</td>
+                <td>437,500</td>
+                <td>present (2025-07-12)</td>
+                <td>2025-07-14 23:32:49</td>
+                <td>4db.</td>
+            </tr>
+            <tr>
+                <td>93549994</td>
+                <td>~ Mine ~</td>
+                <td class="present">Present</td>
+                <td>425,500</td>
+                <td>present (2025-07-12)</td>
+                <td>2025-07-14 23:37:31</td>
+                <td>4db.</td>
+            </tr>
+            <tr>
+                <td>80366186</td>
+                <td>「Almelaaf」</td>
+                <td class="present">Present</td>
+                <td>414,700</td>
+                <td>present (2025-07-12)</td>
+                <td>2025-07-14 23:37:50</td>
+                <td>4db.</td>
+            </tr>
+            <tr>
+                <td>113117742</td>
+                <td>jordoo</td>
+                <td class="present">Present</td>
+                <td>385,300</td>
+                <td>present (2025-07-12)</td>
+                <td>2025-07-14 23:39:32</td>
+                <td>4db.</td>
+            </tr>
+            <tr>
+                <td>81136601</td>
+                <td>الصياد</td>
+                <td class="present">Present</td>
+                <td>315,000</td>
+                <td>present (2025-06-29)</td>
+                <td>2025-07-14 23:40:01</td>
+                <td>4db.</td>
+            </tr>
+            <tr>
+                <td>87076668</td>
+                <td>꧁děặțĥ꧂</td>
+                <td class="present">Present</td>
+                <td>285,100</td>
+                <td>present (2025-07-12)</td>
+                <td>2025-07-14 23:40:50</td>
+                <td>4db.</td>
+            </tr>
+            <tr>
+                <td>94429128</td>
+                <td>꧁ᰔᩚρяє¢ισυѕᰔᩚ꧂</td>
+                <td class="present">Present</td>
+                <td>276,200</td>
+                <td>present (2025-07-12)</td>
+                <td>2025-07-14 23:41:13</td>
+                <td>4db.</td>
+            </tr>
+            <tr>
+                <td>93462731</td>
+                <td>hamzawe</td>
+                <td class="present">Present</td>
+                <td>271,700</td>
+                <td>absent (2025-07-12)</td>
+                <td>2025-07-14 23:41:45</td>
+                <td>4db.</td>
+            </tr>
+            <tr>
+                <td>121030037</td>
+                <td>Joss</td>
+                <td class="present">Present</td>
+                <td>239,600</td>
+                <td>present (2025-07-12)</td>
+                <td>2025-07-14 23:42:40</td>
+                <td>4db.</td>
+            </tr>
+            <tr>
+                <td>126713364</td>
+                <td>BEARTHETERRIBLE</td>
+                <td class="present">Present</td>
+                <td>233,800</td>
+                <td>present (2025-07-12)</td>
+                <td>2025-07-14 23:43:53</td>
+                <td>4db.</td>
+            </tr>
+            <tr>
+                <td>106142924</td>
+                <td>Diezel</td>
+                <td class="present">Present</td>
+                <td>217,300</td>
+                <td>present (2025-07-12)</td>
+                <td>2025-07-14 23:45:29</td>
+                <td>4db.</td>
+            </tr>
+            <tr>
+                <td>117508735</td>
+                <td>αтнєηα</td>
+                <td class="present">Present</td>
+                <td>162,000</td>
+                <td>present (2025-07-12)</td>
+                <td>2025-07-14 23:46:24</td>
+                <td>4db.</td>
+            </tr>
+            <tr>
+                <td>115933764</td>
+                <td>Teeko</td>
+                <td class="present">Present</td>
+                <td>150,500</td>
+                <td>N/A</td>
+                <td>2025-07-14 23:49:21</td>
+                <td>4db.</td>
+            </tr>
+            <tr>
+                <td>117834940</td>
+                <td>AnomIk~Mermaid</td>
+                <td class="present">Present</td>
+                <td>141,100</td>
+                <td>present (2025-07-12)</td>
+                <td>2025-07-14 23:49:51</td>
+                <td>4db.</td>
+            </tr>
+            <tr>
+                <td>96247742</td>
+                <td>alyafiei</td>
+                <td class="present">Present</td>
+                <td>138,100</td>
+                <td>absent (2025-07-12)</td>
+                <td>2025-07-14 23:50:23</td>
+                <td>4db.</td>
+            </tr>
+            <tr>
+                <td>91488004</td>
+                <td>Rania</td>
+                <td class="present">Present</td>
+                <td>111,700</td>
+                <td>present (2025-07-12)</td>
+                <td>2025-07-14 23:50:46</td>
+                <td>4db.</td>
+            </tr>
+            <tr>
+                <td>116687373</td>
+                <td>KayWasHere</td>
+                <td class="present">Present</td>
+                <td>85,000</td>
+                <td>present (2025-07-12)</td>
+                <td>2025-07-14 23:51:25</td>
+                <td>4db.</td>
+            </tr>
+            <tr>
+                <td>114344217</td>
+                <td>Val</td>
+                <td class="present">Present</td>
+                <td>79,100</td>
+                <td>present (2025-07-12)</td>
+                <td>2025-07-14 23:51:50</td>
+                <td>4db.</td>
+            </tr>
+            <tr>
+                <td>95617380</td>
+                <td>Em_</td>
+                <td class="present">Present</td>
+                <td>26,300</td>
+                <td>present (2025-07-12)</td>
+                <td>2025-07-14 23:52:08</td>
+                <td>4db.</td>
+            </tr>
+            <tr>
+                <td>62100897</td>
+                <td>HK__</td>
+                <td class="absent">Absent</td>
+                <td>0</td>
+                <td>N/A</td>
+                <td>2025-07-15 00:50:06</td>
+                <td>4db.</td>
+            </tr>
+            <tr>
+                <td>112492926</td>
+                <td>Anubis 01</td>
+                <td class="absent">Absent</td>
+                <td>0</td>
+                <td>present (2025-07-12)</td>
+                <td>2025-07-14 23:53:57</td>
+                <td>4db.</td>
+            </tr>
+            <tr>
+                <td>101973403</td>
+                <td>ISMAILdz</td>
+                <td class="absent">Absent</td>
+                <td>0</td>
+                <td>absent (2025-07-12)</td>
+                <td>2025-07-14 23:53:14</td>
+                <td>4db.</td>
+            </tr>
+            <tr>
+                <td>93135545</td>
+                <td>#BASSAM#</td>
+                <td class="absent">Absent</td>
+                <td>0</td>
+                <td>absent (2025-07-12)</td>
+                <td>2025-07-14 23:52:37</td>
+                <td>4db.</td>
+            </tr>
+        </tbody>
+    </table>
+    
+    <div class="footer">
+        <p>Generated by Leo WOS Attendance Bot</p>
+    </div>
+</body>
+</html>

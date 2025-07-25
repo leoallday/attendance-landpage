@@ -28,8 +28,8 @@ author: "Attendance System"
 lang: en-US
 
 # Social media and contact
-github_username: ""
-email: ""
+github_username: "leoallday"
+email: "maxhoww123@gmail.com"
 
 # Theme settings (using default GitHub Pages theme)
 theme: minima
@@ -37,7 +37,7 @@ theme: minima
 # Custom variables
 attendance_system:
   version: "1.0"
-  last_updated: "2024-01-15"
+  last_updated: "2025-07-25"
   features:
     - "Dynamic file detection"
     - "Search and filter"

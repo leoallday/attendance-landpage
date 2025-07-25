@@ -1,0 +1,61 @@
+{
+  "version": "1.0",
+  "lastUpdated": "2024-01-15T10:00:00Z",
+  "description": "Manifest file for attendance records - update this file when adding new attendance HTML files",
+  "files": [
+    {
+      "filename": "attendance-2024-01-15.html",
+      "title": "Attendance - January 15, 2024",
+      "date": "2024-01-15",
+      "description": "Morning session attendance",
+      "category": "regular"
+    },
+    {
+      "filename": "attendance-2024-01-20.html", 
+      "title": "Attendance - January 20, 2024",
+      "date": "2024-01-20",
+      "description": "Weekend workshop attendance",
+      "category": "workshop"
+    },
+    {
+      "filename": "attendance-2024-02-01.html",
+      "title": "Attendance - February 1, 2024", 
+      "date": "2024-02-01",
+      "description": "Monthly meeting attendance",
+      "category": "meeting"
+    },
+    {
+      "filename": "attendance-2024-02-15.html",
+      "title": "Attendance - February 15, 2024",
+      "date": "2024-02-15", 
+      "description": "Training session attendance",
+      "category": "training"
+    },
+    {
+      "filename": "attendance-session-01.html",
+      "title": "Attendance Session 1",
+      "date": "2024-01-10",
+      "description": "First orientation session",
+      "category": "orientation"
+    },
+    {
+      "filename": "attendance-session-02.html",
+      "title": "Attendance Session 2", 
+      "date": "2024-01-12",
+      "description": "Second orientation session",
+      "category": "orientation"
+    }
+  ],
+  "categories": {
+    "regular": "Regular Sessions",
+    "workshop": "Workshops", 
+    "meeting": "Meetings",
+    "training": "Training Sessions",
+    "orientation": "Orientation Sessions"
+  },
+  "instructions": {
+    "addingNewFiles": "To add new attendance files: 1) Add the HTML file to the repository, 2) Add an entry to the 'files' array above with filename, title, date, description, and category, 3) Update the 'lastUpdated' timestamp",
+    "namingConvention": "Use format 'attendance-YYYY-MM-DD.html' for date-based files or 'attendance-session-XX.html' for session-based files",
+    "categories": "Use existing categories or add new ones to the 'categories' object"
+  }
+}

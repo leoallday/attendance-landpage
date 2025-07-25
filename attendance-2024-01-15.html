@@ -1,0 +1,224 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Attendance Record - January 15, 2024</title>
+    <style>
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            margin: 0;
+            padding: 20px;
+            background: #f8f9fa;
+        }
+        .container {
+            max-width: 800px;
+            margin: 0 auto;
+            background: white;
+            border-radius: 10px;
+            box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+            overflow: hidden;
+        }
+        .header {
+            background: linear-gradient(135deg, #28a745, #20c997);
+            color: white;
+            padding: 20px;
+            text-align: center;
+        }
+        .header h1 {
+            margin: 0;
+            font-size: 1.8rem;
+        }
+        .header p {
+            margin: 5px 0 0 0;
+            opacity: 0.9;
+        }
+        .content {
+            padding: 20px;
+        }
+        .info-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+            gap: 15px;
+            margin-bottom: 20px;
+        }
+        .info-card {
+            background: #f8f9fa;
+            padding: 15px;
+            border-radius: 8px;
+            border-left: 4px solid #28a745;
+        }
+        .info-card h3 {
+            margin: 0 0 5px 0;
+            color: #495057;
+            font-size: 0.9rem;
+            text-transform: uppercase;
+            letter-spacing: 0.5px;
+        }
+        .info-card p {
+            margin: 0;
+            font-size: 1.1rem;
+            font-weight: 600;
+            color: #28a745;
+        }
+        .attendance-table {
+            width: 100%;
+            border-collapse: collapse;
+            margin-top: 20px;
+        }
+        .attendance-table th,
+        .attendance-table td {
+            padding: 12px;
+            text-align: left;
+            border-bottom: 1px solid #dee2e6;
+        }
+        .attendance-table th {
+            background: #f8f9fa;
+            font-weight: 600;
+            color: #495057;
+        }
+        .attendance-table tr:hover {
+            background: #f8f9fa;
+        }
+        .status {
+            padding: 4px 8px;
+            border-radius: 4px;
+            font-size: 0.85rem;
+            font-weight: 600;
+        }
+        .status.present {
+            background: #d4edda;
+            color: #155724;
+        }
+        .status.absent {
+            background: #f8d7da;
+            color: #721c24;
+        }
+        .status.late {
+            background: #fff3cd;
+            color: #856404;
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <div class="header">
+            <h1>📋 Attendance Record</h1>
+            <p>Morning Session - January 15, 2024</p>
+        </div>
+        
+        <div class="content">
+            <div class="info-grid">
+                <div class="info-card">
+                    <h3>Date</h3>
+                    <p>January 15, 2024</p>
+                </div>
+                <div class="info-card">
+                    <h3>Session</h3>
+                    <p>Morning Session</p>
+                </div>
+                <div class="info-card">
+                    <h3>Total Participants</h3>
+                    <p>25</p>
+                </div>
+                <div class="info-card">
+                    <h3>Present</h3>
+                    <p>22</p>
+                </div>
+                <div class="info-card">
+                    <h3>Absent</h3>
+                    <p>2</p>
+                </div>
+                <div class="info-card">
+                    <h3>Late</h3>
+                    <p>1</p>
+                </div>
+            </div>
+
+            <table class="attendance-table">
+                <thead>
+                    <tr>
+                        <th>ID</th>
+                        <th>Name</th>
+                        <th>Department</th>
+                        <th>Check-in Time</th>
+                        <th>Status</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <tr>
+                        <td>001</td>
+                        <td>John Smith</td>
+                        <td>Engineering</td>
+                        <td>09:00 AM</td>
+                        <td><span class="status present">Present</span></td>
+                    </tr>
+                    <tr>
+                        <td>002</td>
+                        <td>Sarah Johnson</td>
+                        <td>Marketing</td>
+                        <td>09:05 AM</td>
+                        <td><span class="status present">Present</span></td>
+                    </tr>
+                    <tr>
+                        <td>003</td>
+                        <td>Mike Davis</td>
+                        <td>Sales</td>
+                        <td>09:15 AM</td>
+                        <td><span class="status late">Late</span></td>
+                    </tr>
+                    <tr>
+                        <td>004</td>
+                        <td>Emily Brown</td>
+                        <td>HR</td>
+                        <td>09:02 AM</td>
+                        <td><span class="status present">Present</span></td>
+                    </tr>
+                    <tr>
+                        <td>005</td>
+                        <td>David Wilson</td>
+                        <td>Finance</td>
+                        <td>-</td>
+                        <td><span class="status absent">Absent</span></td>
+                    </tr>
+                    <tr>
+                        <td>006</td>
+                        <td>Lisa Anderson</td>
+                        <td>Engineering</td>
+                        <td>08:58 AM</td>
+                        <td><span class="status present">Present</span></td>
+                    </tr>
+                    <tr>
+                        <td>007</td>
+                        <td>Robert Taylor</td>
+                        <td>Operations</td>
+                        <td>09:01 AM</td>
+                        <td><span class="status present">Present</span></td>
+                    </tr>
+                    <tr>
+                        <td>008</td>
+                        <td>Jennifer Martinez</td>
+                        <td>Marketing</td>
+                        <td>-</td>
+                        <td><span class="status absent">Absent</span></td>
+                    </tr>
+                    <tr>
+                        <td>009</td>
+                        <td>Christopher Lee</td>
+                        <td>IT</td>
+                        <td>09:03 AM</td>
+                        <td><span class="status present">Present</span></td>
+                    </tr>
+                    <tr>
+                        <td>010</td>
+                        <td>Amanda White</td>
+                        <td>Design</td>
+                        <td>09:00 AM</td>
+                        <td><span class="status present">Present</span></td>
+                    </tr>
+                </tbody>
+            </table>
+        </div>
+    </div>
+</body>
+</html>

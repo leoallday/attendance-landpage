@@ -1,0 +1,526 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Attendance System - Records Viewer</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            min-height: 100vh;
+            padding: 20px;
+        }
+
+        .container {
+            max-width: 1200px;
+            margin: 0 auto;
+            background: white;
+            border-radius: 15px;
+            box-shadow: 0 20px 40px rgba(0, 0, 0, 0.1);
+            overflow: hidden;
+        }
+
+        .header {
+            background: linear-gradient(135deg, #4facfe 0%, #00f2fe 100%);
+            color: white;
+            padding: 30px;
+            text-align: center;
+        }
+
+        .header h1 {
+            font-size: 2.5rem;
+            margin-bottom: 10px;
+            font-weight: 300;
+        }
+
+        .header p {
+            font-size: 1.1rem;
+            opacity: 0.9;
+        }
+
+        .controls {
+            padding: 30px;
+            background: #f8f9fa;
+            border-bottom: 1px solid #e9ecef;
+        }
+
+        .control-group {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 20px;
+            align-items: center;
+            justify-content: center;
+        }
+
+        .control-item {
+            display: flex;
+            flex-direction: column;
+            gap: 8px;
+        }
+
+        label {
+            font-weight: 600;
+            color: #495057;
+            font-size: 0.9rem;
+        }
+
+        select, input {
+            padding: 12px 16px;
+            border: 2px solid #e9ecef;
+            border-radius: 8px;
+            font-size: 1rem;
+            transition: all 0.3s ease;
+            min-width: 200px;
+        }
+
+        select:focus, input:focus {
+            outline: none;
+            border-color: #4facfe;
+            box-shadow: 0 0 0 3px rgba(79, 172, 254, 0.1);
+        }
+
+        .btn {
+            padding: 12px 24px;
+            background: linear-gradient(135deg, #4facfe 0%, #00f2fe 100%);
+            color: white;
+            border: none;
+            border-radius: 8px;
+            cursor: pointer;
+            font-size: 1rem;
+            font-weight: 600;
+            transition: all 0.3s ease;
+            text-decoration: none;
+            display: inline-block;
+            text-align: center;
+        }
+
+        .btn:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 10px 20px rgba(79, 172, 254, 0.3);
+        }
+
+        .content {
+            padding: 30px;
+            min-height: 400px;
+        }
+
+        .no-selection {
+            text-align: center;
+            color: #6c757d;
+            font-size: 1.1rem;
+            margin-top: 100px;
+        }
+
+        .no-selection i {
+            font-size: 4rem;
+            margin-bottom: 20px;
+            display: block;
+            opacity: 0.3;
+        }
+
+        .attendance-frame {
+            width: 100%;
+            height: 600px;
+            border: 2px solid #e9ecef;
+            border-radius: 8px;
+            background: white;
+        }
+
+        .loading {
+            text-align: center;
+            padding: 50px;
+            color: #6c757d;
+        }
+
+        .error {
+            background: #f8d7da;
+            color: #721c24;
+            padding: 15px;
+            border-radius: 8px;
+            margin: 20px 0;
+            border: 1px solid #f5c6cb;
+        }
+
+        .info {
+            background: #d1ecf1;
+            color: #0c5460;
+            padding: 15px;
+            border-radius: 8px;
+            margin: 20px 0;
+            border: 1px solid #bee5eb;
+        }
+
+        @media (max-width: 768px) {
+            .header h1 {
+                font-size: 2rem;
+            }
+
+            .control-group {
+                flex-direction: column;
+                align-items: stretch;
+            }
+
+            .control-item {
+                width: 100%;
+            }
+
+            select, input {
+                min-width: 100%;
+            }
+
+            .attendance-frame {
+                height: 500px;
+            }
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <div class="header">
+            <h1>📋 Attendance System</h1>
+            <p>View and manage attendance records</p>
+        </div>
+
+        <div class="controls">
+            <div class="control-group">
+                <div class="control-item">
+                    <label for="attendanceSelect">Select Attendance Record:</label>
+                    <select id="attendanceSelect">
+                        <option value="">Choose an attendance record...</option>
+                    </select>
+                </div>
+
+                <div class="control-item">
+                    <label for="searchInput">Search Records:</label>
+                    <input type="text" id="searchInput" placeholder="Search by date or name...">
+                </div>
+
+                <div class="control-item">
+                    <label>&nbsp;</label>
+                    <button class="btn" onclick="refreshRecords()">🔄 Refresh</button>
+                </div>
+            </div>
+        </div>
+
+        <div class="content">
+            <div id="noSelection" class="no-selection">
+                <i>📄</i>
+                <h3>No Record Selected</h3>
+                <p>Please select an attendance record from the dropdown above to view its contents.</p>
+            </div>
+
+            <div id="loadingMessage" class="loading" style="display: none;">
+                <h3>Loading attendance record...</h3>
+                <p>Please wait while we load the selected file.</p>
+            </div>
+
+            <iframe id="attendanceFrame" class="attendance-frame" style="display: none;"
+                    title="Attendance Record Viewer"></iframe>
+        </div>
+    </div>
+
+    <script>
+        // Global variables
+        let attendanceFiles = [];
+        let filteredFiles = [];
+
+        // Initialize the application
+        document.addEventListener('DOMContentLoaded', function() {
+            loadAttendanceFiles();
+            setupEventListeners();
+        });
+
+        // Set up event listeners
+        function setupEventListeners() {
+            const attendanceSelect = document.getElementById('attendanceSelect');
+            const searchInput = document.getElementById('searchInput');
+
+            attendanceSelect.addEventListener('change', function() {
+                const selectedFile = this.value;
+                if (selectedFile) {
+                    loadAttendanceRecord(selectedFile);
+                } else {
+                    showNoSelection();
+                }
+            });
+
+            searchInput.addEventListener('input', function() {
+                filterFiles(this.value);
+            });
+        }
+
+        // Load and discover attendance files
+        async function loadAttendanceFiles() {
+            try {
+                showMessage('Loading available attendance records...', 'info');
+
+                // For GitHub Pages, we'll use a predefined list approach
+                // This can be updated by adding files to the attendanceFilesList
+                const filesList = await getAttendanceFilesList();
+
+                attendanceFiles = filesList;
+                filteredFiles = [...attendanceFiles];
+
+                populateDropdown();
+                hideMessage();
+
+                if (attendanceFiles.length === 0) {
+                    showMessage('No attendance records found. Please add some attendance HTML files to the repository.', 'info');
+                }
+            } catch (error) {
+                console.error('Error loading attendance files:', error);
+                showMessage('Error loading attendance files. Please check the console for details.', 'error');
+            }
+        }
+
+        // Get list of attendance files
+        async function getAttendanceFilesList() {
+            try {
+                // First, try to load from manifest file
+                const manifestResponse = await fetch('attendance-manifest.json');
+                if (manifestResponse.ok) {
+                    const manifest = await manifestResponse.json();
+                    return await validateAndFormatManifestFiles(manifest.files);
+                }
+            } catch (error) {
+                console.log('Manifest file not found, falling back to discovery method');
+            }
+
+            // Fallback: For GitHub Pages compatibility, check for files using a predefined list
+            const potentialFiles = [
+                'attendance-2024-01-15.html',
+                'attendance-2024-01-20.html',
+                'attendance-2024-02-01.html',
+                'attendance-2024-02-15.html',
+                'attendance-session-01.html',
+                'attendance-session-02.html'
+            ];
+
+            const existingFiles = [];
+
+            for (const file of potentialFiles) {
+                try {
+                    const response = await fetch(file, { method: 'HEAD' });
+                    if (response.ok) {
+                        existingFiles.push({
+                            filename: file,
+                            displayName: formatDisplayName(file),
+                            date: extractDateFromFilename(file),
+                            description: '',
+                            category: 'regular'
+                        });
+                    }
+                } catch (error) {
+                    // File doesn't exist, skip it
+                    console.log(`File ${file} not found, skipping...`);
+                }
+            }
+
+            // Sort by date (newest first)
+            existingFiles.sort((a, b) => {
+                if (a.date && b.date) {
+                    return new Date(b.date) - new Date(a.date);
+                }
+                return a.displayName.localeCompare(b.displayName);
+            });
+
+            return existingFiles;
+        }
+
+        // Validate and format files from manifest
+        async function validateAndFormatManifestFiles(manifestFiles) {
+            const validFiles = [];
+
+            for (const fileInfo of manifestFiles) {
+                try {
+                    // Check if file actually exists
+                    const response = await fetch(fileInfo.filename, { method: 'HEAD' });
+                    if (response.ok) {
+                        validFiles.push({
+                            filename: fileInfo.filename,
+                            displayName: fileInfo.title || formatDisplayName(fileInfo.filename),
+                            date: fileInfo.date,
+                            description: fileInfo.description || '',
+                            category: fileInfo.category || 'regular'
+                        });
+                    } else {
+                        console.warn(`File listed in manifest but not found: ${fileInfo.filename}`);
+                    }
+                } catch (error) {
+                    console.warn(`Error checking file ${fileInfo.filename}:`, error);
+                }
+            }
+
+            // Sort by date (newest first)
+            validFiles.sort((a, b) => {
+                if (a.date && b.date) {
+                    return new Date(b.date) - new Date(a.date);
+                }
+                return a.displayName.localeCompare(b.displayName);
+            });
+
+            return validFiles;
+        }
+
+        // Format filename for display
+        function formatDisplayName(filename) {
+            // Remove .html extension
+            let name = filename.replace('.html', '');
+
+            // Handle date format (attendance-YYYY-MM-DD)
+            const dateMatch = name.match(/attendance-(\d{4}-\d{2}-\d{2})/);
+            if (dateMatch) {
+                const date = new Date(dateMatch[1]);
+                return `Attendance - ${date.toLocaleDateString('en-US', {
+                    year: 'numeric',
+                    month: 'long',
+                    day: 'numeric'
+                })}`;
+            }
+
+            // Handle session format (attendance-session-XX)
+            const sessionMatch = name.match(/attendance-session-(\d+)/);
+            if (sessionMatch) {
+                return `Attendance Session ${sessionMatch[1]}`;
+            }
+
+            // Default formatting
+            return name.replace(/attendance-/i, 'Attendance - ')
+                      .replace(/-/g, ' ')
+                      .replace(/\b\w/g, l => l.toUpperCase());
+        }
+
+        // Extract date from filename for sorting
+        function extractDateFromFilename(filename) {
+            const dateMatch = filename.match(/(\d{4}-\d{2}-\d{2})/);
+            return dateMatch ? dateMatch[1] : null;
+        }
+
+        // Populate the dropdown with files
+        function populateDropdown() {
+            const select = document.getElementById('attendanceSelect');
+
+            // Clear existing options except the first one
+            while (select.children.length > 1) {
+                select.removeChild(select.lastChild);
+            }
+
+            // Add filtered files
+            filteredFiles.forEach(file => {
+                const option = document.createElement('option');
+                option.value = file.filename;
+                option.textContent = file.displayName;
+                select.appendChild(option);
+            });
+        }
+
+        // Filter files based on search input
+        function filterFiles(searchTerm) {
+            if (!searchTerm.trim()) {
+                filteredFiles = [...attendanceFiles];
+            } else {
+                const term = searchTerm.toLowerCase();
+                filteredFiles = attendanceFiles.filter(file =>
+                    file.displayName.toLowerCase().includes(term) ||
+                    file.filename.toLowerCase().includes(term)
+                );
+            }
+
+            populateDropdown();
+
+            // Reset selection if current selection is not in filtered results
+            const select = document.getElementById('attendanceSelect');
+            const currentValue = select.value;
+            if (currentValue && !filteredFiles.some(f => f.filename === currentValue)) {
+                select.value = '';
+                showNoSelection();
+            }
+        }
+
+        // Load and display selected attendance record
+        function loadAttendanceRecord(filename) {
+            showLoading();
+
+            const iframe = document.getElementById('attendanceFrame');
+            iframe.src = filename;
+
+            iframe.onload = function() {
+                showAttendanceFrame();
+            };
+
+            iframe.onerror = function() {
+                showMessage(`Error loading attendance record: ${filename}`, 'error');
+            };
+        }
+
+        // Show/hide different content states
+        function showNoSelection() {
+            document.getElementById('noSelection').style.display = 'block';
+            document.getElementById('loadingMessage').style.display = 'none';
+            document.getElementById('attendanceFrame').style.display = 'none';
+            hideMessage();
+        }
+
+        function showLoading() {
+            document.getElementById('noSelection').style.display = 'none';
+            document.getElementById('loadingMessage').style.display = 'block';
+            document.getElementById('attendanceFrame').style.display = 'none';
+            hideMessage();
+        }
+
+        function showAttendanceFrame() {
+            document.getElementById('noSelection').style.display = 'none';
+            document.getElementById('loadingMessage').style.display = 'none';
+            document.getElementById('attendanceFrame').style.display = 'block';
+            hideMessage();
+        }
+
+        // Message display functions
+        function showMessage(message, type = 'info') {
+            hideMessage();
+
+            const messageDiv = document.createElement('div');
+            messageDiv.id = 'messageDisplay';
+            messageDiv.className = type;
+            messageDiv.innerHTML = `<strong>${type === 'error' ? 'Error:' : 'Info:'}</strong> ${message}`;
+
+            const content = document.querySelector('.content');
+            content.insertBefore(messageDiv, content.firstChild);
+        }
+
+        function hideMessage() {
+            const existingMessage = document.getElementById('messageDisplay');
+            if (existingMessage) {
+                existingMessage.remove();
+            }
+        }
+
+        // Refresh records function
+        function refreshRecords() {
+            const select = document.getElementById('attendanceSelect');
+            const searchInput = document.getElementById('searchInput');
+
+            // Reset UI
+            select.value = '';
+            searchInput.value = '';
+            showNoSelection();
+
+            // Reload files
+            loadAttendanceFiles();
+        }
+
+        // Utility function to check if running on GitHub Pages
+        function isGitHubPages() {
+            return window.location.hostname.includes('github.io') ||
+                   window.location.hostname.includes('github.com');
+        }
+    </script>
+</body>
+</html>

@@ -1,0 +1,46 @@
+# GitHub Pages Configuration
+title: "Attendance System"
+description: "Dynamic attendance records viewer and management system"
+baseurl: ""
+url: ""
+
+# Build settings
+markdown: kramdown
+highlighter: rouge
+
+# Exclude files from processing
+exclude:
+  - README.md
+  - LICENSE
+  - .gitignore
+
+# Include files that start with underscores
+include:
+  - _config.yml
+
+# Plugin settings
+plugins:
+  - jekyll-sitemap
+  - jekyll-feed
+
+# SEO and metadata
+author: "Attendance System"
+lang: en-US
+
+# Social media and contact
+github_username: ""
+email: ""
+
+# Theme settings (using default GitHub Pages theme)
+theme: minima
+
+# Custom variables
+attendance_system:
+  version: "1.0"
+  last_updated: "2024-01-15"
+  features:
+    - "Dynamic file detection"
+    - "Search and filter"
+    - "Responsive design"
+    - "Embedded viewing"
+    - "Easy management"

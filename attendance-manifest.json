@@ -11,26 +11,30 @@
       "category": "foundry"
     },
     {
-      "filename": "attendance-session-01.html",
-      "title": "Attendance Session 1",
-      "date": "2024-01-10",
-      "description": "First orientation session",
-      "category": "orientation"
+      "filename": "attendance-2025-07-12.html",
+      "title": "Attendance - July 12, 25",
+      "date": "2025-07-12",
+      "description": "Canyon Battle",
+      "category": "canyon"
     },
     {
-      "filename": "attendance-session-02.html",
-      "title": "Attendance Session 2", 
-      "date": "2024-01-12",
-      "description": "Second orientation session",
-      "category": "orientation"
+      "filename": "attendance-2025-06-29.html",
+      "title": "Attendance - June 29, 25",
+      "date": "2025-06-29",
+      "description": "Foundry Battle",
+      "category": "foundry"
+    },
+    {
+      "filename": "attendance-2025-06-15.html",
+      "title": "Attendance - June 15, 25",
+      "date": "2025-06-15",
+      "description": "Foundry Battle",
+      "category": "foundry"
     }
   ],
   "categories": {
     "foundry": "Foundry Battle",
-    "workshop": "Workshops", 
-    "meeting": "Meetings",
-    "training": "Training Sessions",
-    "orientation": "Orientation Sessions"
+    "canyon": "Canyon Battle"
   },
   "instructions": {
     "addingNewFiles": "To add new attendance files: 1) Add the HTML file to the repository, 2) Add an entry to the 'files' array above with filename, title, date, description, and category, 3) Update the 'lastUpdated' timestamp",

@@ -1,0 +1,402 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="UTF-8">
+    <title>Attendance Report - KOH - Foundry 29/06</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            margin: 20px;
+            background-color: #f5f5f5;
+        }
+        .header {
+            background-color: #4CAF50;
+            color: white;
+            padding: 20px;
+            border-radius: 5px;
+            margin-bottom: 20px;
+        }
+        .stats {
+            background-color: white;
+            padding: 15px;
+            border-radius: 5px;
+            margin-bottom: 20px;
+            box-shadow: 0 2px 4px rgba(0,0,0,0.1);
+        }
+        table {
+            border-collapse: collapse;
+            width: 100%;
+            background-color: white;
+            box-shadow: 0 2px 4px rgba(0,0,0,0.1);
+        }
+        th, td {
+            border: 1px solid #ddd;
+            padding: 12px;
+            text-align: left;
+        }
+        th {
+            background-color: #4CAF50;
+            color: white;
+            font-weight: bold;
+        }
+        tr:nth-child(even) {
+            background-color: #f9f9f9;
+        }
+        tr:hover {
+            background-color: #f5f5f5;
+        }
+        .present { color: #4CAF50; font-weight: bold; }
+        .absent { color: #f44336; font-weight: bold; }
+        .not-signed { color: #9e9e9e; font-weight: bold; }
+        .footer {
+            text-align: center;
+            margin-top: 20px;
+            color: #666;
+            font-size: 12px;
+        }
+    </style>
+</head>
+<body>
+    <div class="header">
+        <h1>Attendance Report</h1>
+        <h2>KOH - Foundry 29/06</h2>
+    </div>
+    
+    <div class="stats">
+        <h3>Summary</h3>
+        <p><strong>Export Date:</strong> 2025-07-25 15:42:30</p>
+        <p><strong>Total Players:</strong> 34</p>
+        <p>
+            <span class="present">Present: 30</span> | 
+            <span class="absent">Absent: 4</span> | 
+            <span class="not-signed">Not Signed: 0</span>
+        </p>
+    </div>
+    
+    <table>
+        <thead>
+            <tr>
+                <th>FID</th>
+                <th>Nickname</th>
+                <th>Status</th>
+                <th>Points</th>
+                <th>Last Event Attendance</th>
+                <th>Marked Date</th>
+                <th>Marked By</th>
+            </tr>
+        </thead>
+        <tbody>
+            <tr>
+                <td>118473881</td>
+                <td>General Hamdi</td>
+                <td class="present">Present</td>
+                <td>7,300,000</td>
+                <td>N</td>
+                <td>2025-06-29 23:08:55</td>
+                <td>4db.</td>
+            </tr>
+            <tr>
+                <td>97490149</td>
+                <td>ღ̶K̶a̶r̶l̶a̶ᴸ</td>
+                <td class="present">Present</td>
+                <td>5,500,000</td>
+                <td>P</td>
+                <td>2025-06-29 23:09:14</td>
+                <td>4db.</td>
+            </tr>
+            <tr>
+                <td>120030406</td>
+                <td>「Nader」</td>
+                <td class="present">Present</td>
+                <td>3,800,000</td>
+                <td>P</td>
+                <td>2025-06-29 23:09:31</td>
+                <td>4db.</td>
+            </tr>
+            <tr>
+                <td>95477583</td>
+                <td>ALMAFIA ᴷᵂᵀ</td>
+                <td class="present">Present</td>
+                <td>3,000,000</td>
+                <td>N</td>
+                <td>2025-06-29 23:09:48</td>
+                <td>4db.</td>
+            </tr>
+            <tr>
+                <td>81234607</td>
+                <td>°°UAE°°</td>
+                <td class="present">Present</td>
+                <td>2,000,000</td>
+                <td>P</td>
+                <td>2025-06-29 23:10:06</td>
+                <td>4db.</td>
+            </tr>
+            <tr>
+                <td>99582074</td>
+                <td>ErenLsdİçen</td>
+                <td class="present">Present</td>
+                <td>1,400,000</td>
+                <td>N</td>
+                <td>2025-06-29 23:13:01</td>
+                <td>4db.</td>
+            </tr>
+            <tr>
+                <td>84317290</td>
+                <td>ღ̶L̶è̶o̶ᴷ</td>
+                <td class="present">Present</td>
+                <td>1,300,000</td>
+                <td>P</td>
+                <td>2025-06-29 23:13:25</td>
+                <td>4db.</td>
+            </tr>
+            <tr>
+                <td>93549994</td>
+                <td>~ Mine ~</td>
+                <td class="present">Present</td>
+                <td>1,200,000</td>
+                <td>P</td>
+                <td>2025-06-29 23:13:45</td>
+                <td>4db.</td>
+            </tr>
+            <tr>
+                <td>80366186</td>
+                <td>「Almelaaf」</td>
+                <td class="present">Present</td>
+                <td>944,100</td>
+                <td>P</td>
+                <td>2025-06-29 23:14:08</td>
+                <td>4db.</td>
+            </tr>
+            <tr>
+                <td>100471918</td>
+                <td>AB,</td>
+                <td class="present">Present</td>
+                <td>903,000</td>
+                <td>N</td>
+                <td>2025-06-29 23:14:28</td>
+                <td>4db.</td>
+            </tr>
+            <tr>
+                <td>115267556</td>
+                <td>Maddest</td>
+                <td class="present">Present</td>
+                <td>883,000</td>
+                <td>P</td>
+                <td>2025-06-29 23:15:30</td>
+                <td>4db.</td>
+            </tr>
+            <tr>
+                <td>98019046</td>
+                <td>BRHOOM_2004 ᴊᴏʀ</td>
+                <td class="present">Present</td>
+                <td>846,400</td>
+                <td>P</td>
+                <td>2025-06-29 23:15:53</td>
+                <td>4db.</td>
+            </tr>
+            <tr>
+                <td>83594021</td>
+                <td>「Omarx10」</td>
+                <td class="present">Present</td>
+                <td>769,400</td>
+                <td>P</td>
+                <td>2025-06-29 23:16:35</td>
+                <td>4db.</td>
+            </tr>
+            <tr>
+                <td>93429653</td>
+                <td>×٠Ӑḍậɱ٠×</td>
+                <td class="present">Present</td>
+                <td>722,600</td>
+                <td>P</td>
+                <td>2025-06-29 23:17:09</td>
+                <td>4db.</td>
+            </tr>
+            <tr>
+                <td>85238702</td>
+                <td>ᴿᴬᴴᴬᶠ</td>
+                <td class="present">Present</td>
+                <td>683,000</td>
+                <td>N</td>
+                <td>2025-06-29 23:17:31</td>
+                <td>4db.</td>
+            </tr>
+            <tr>
+                <td>92652595</td>
+                <td>OMAR&</td>
+                <td class="present">Present</td>
+                <td>678,500</td>
+                <td>N</td>
+                <td>2025-06-29 23:18:15</td>
+                <td>4db.</td>
+            </tr>
+            <tr>
+                <td>51171398</td>
+                <td>Muteb""</td>
+                <td class="present">Present</td>
+                <td>634,300</td>
+                <td>N</td>
+                <td>2025-06-29 23:18:38</td>
+                <td>4db.</td>
+            </tr>
+            <tr>
+                <td>106142924</td>
+                <td>Diezel</td>
+                <td class="present">Present</td>
+                <td>479,500</td>
+                <td>A</td>
+                <td>2025-06-29 23:19:14</td>
+                <td>4db.</td>
+            </tr>
+            <tr>
+                <td>83823357</td>
+                <td>「yasser」</td>
+                <td class="present">Present</td>
+                <td>479,100</td>
+                <td>P</td>
+                <td>2025-06-29 23:26:04</td>
+                <td>4db.</td>
+            </tr>
+            <tr>
+                <td>117508735</td>
+                <td>ʐɛʟɖǟ</td>
+                <td class="present">Present</td>
+                <td>441,600</td>
+                <td>P</td>
+                <td>2025-06-29 23:20:08</td>
+                <td>4db.</td>
+            </tr>
+            <tr>
+                <td>113117742</td>
+                <td>jordoo</td>
+                <td class="present">Present</td>
+                <td>439,700</td>
+                <td>N</td>
+                <td>2025-06-29 23:20:38</td>
+                <td>4db.</td>
+            </tr>
+            <tr>
+                <td>106929423</td>
+                <td>TioDoChurros</td>
+                <td class="present">Present</td>
+                <td>408,600</td>
+                <td>N</td>
+                <td>2025-06-29 23:21:18</td>
+                <td>4db.</td>
+            </tr>
+            <tr>
+                <td>103676950</td>
+                <td>Ｄｏｄｙ</td>
+                <td class="present">Present</td>
+                <td>375,400</td>
+                <td>N</td>
+                <td>2025-06-29 23:21:46</td>
+                <td>4db.</td>
+            </tr>
+            <tr>
+                <td>81136601</td>
+                <td>الصياد</td>
+                <td class="present">Present</td>
+                <td>324,300</td>
+                <td>P</td>
+                <td>2025-06-29 23:22:10</td>
+                <td>4db.</td>
+            </tr>
+            <tr>
+                <td>121030037</td>
+                <td>Joss</td>
+                <td class="present">Present</td>
+                <td>298,600</td>
+                <td>P</td>
+                <td>2025-06-29 23:23:37</td>
+                <td>4db.</td>
+            </tr>
+            <tr>
+                <td>115211579</td>
+                <td>SoN GoKu</td>
+                <td class="present">Present</td>
+                <td>280,800</td>
+                <td>P</td>
+                <td>2025-06-29 23:24:26</td>
+                <td>4db.</td>
+            </tr>
+            <tr>
+                <td>93462731</td>
+                <td>hamzawe</td>
+                <td class="present">Present</td>
+                <td>256,100</td>
+                <td>P</td>
+                <td>2025-06-29 23:27:05</td>
+                <td>4db.</td>
+            </tr>
+            <tr>
+                <td>93135545</td>
+                <td>#BASSAM#</td>
+                <td class="present">Present</td>
+                <td>212,100</td>
+                <td>P</td>
+                <td>2025-06-29 23:27:43</td>
+                <td>4db.</td>
+            </tr>
+            <tr>
+                <td>72462533</td>
+                <td>Nona ꕤ ᵏ ˢ ᵃ</td>
+                <td class="present">Present</td>
+                <td>139,900</td>
+                <td>N</td>
+                <td>2025-06-29 23:29:04</td>
+                <td>4db.</td>
+            </tr>
+            <tr>
+                <td>92954474</td>
+                <td>失 ESCANOR王ᴰᶻ</td>
+                <td class="present">Present</td>
+                <td>203</td>
+                <td>P</td>
+                <td>2025-06-29 23:28:14</td>
+                <td>4db.</td>
+            </tr>
+            <tr>
+                <td>121570841</td>
+                <td>lordfatih01</td>
+                <td class="absent">Absent</td>
+                <td>0</td>
+                <td>A</td>
+                <td>2025-06-29 23:34:00</td>
+                <td>4db.</td>
+            </tr>
+            <tr>
+                <td>107813923</td>
+                <td>JNTL</td>
+                <td class="absent">Absent</td>
+                <td>0</td>
+                <td>P</td>
+                <td>2025-06-29 23:33:32</td>
+                <td>4db.</td>
+            </tr>
+            <tr>
+                <td>102153044</td>
+                <td>╄ Chiefvlria ╄</td>
+                <td class="absent">Absent</td>
+                <td>0</td>
+                <td>N</td>
+                <td>2025-06-29 23:33:02</td>
+                <td>4db.</td>
+            </tr>
+            <tr>
+                <td>89722409</td>
+                <td>Last</td>
+                <td class="absent">Absent</td>
+                <td>0</td>
+                <td>N</td>
+                <td>2025-06-29 23:32:21</td>
+                <td>4db.</td>
+            </tr>
+        </tbody>
+    </table>
+    
+    <div class="footer">
+        <p>Generated by Leo WOS Attendance Bot</p>
+    </div>
+</body>
+</html>

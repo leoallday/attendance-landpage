@@ -4,6 +4,13 @@
   "description": "Manifest file for attendance records - update this file when adding new attendance HTML files",
   "files": [
     {
+      "filename": "attendance-2025-07-27.html",
+      "title": "Attendance Foundry - July 27, 25",
+      "date": "2025-07-27",
+      "description": "Foundry Battle",
+      "category": "foundry"
+    },
+    {
       "filename": "attendance-2025-07-13.html",
       "title": "Attendance Foundry - July 13, 25",
       "date": "2025-07-13",

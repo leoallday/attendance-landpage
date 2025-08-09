@@ -37,6 +37,13 @@
       "date": "2025-06-15",
       "description": "Foundry Battle",
       "category": "foundry"
+    },
+    {
+      "filename": "attendance-2025-08-09.html",
+      "title": "Attendance Canyon - August 9, 25",
+      "date": "2025-08-09",
+      "description": "Canyon Battle",
+      "category": "canyon"
     }
   ],
   "categories": {

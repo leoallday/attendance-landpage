@@ -1,0 +1,344 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="UTF-8">
+    <title>Attendance Report - KOH - Foundry 10/08</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            margin: 20px;
+            background-color: #f5f5f5;
+        }
+        .header {
+            background-color: #4CAF50;
+            color: white;
+            padding: 20px;
+            border-radius: 5px;
+            margin-bottom: 20px;
+        }
+        .stats {
+            background-color: white;
+            padding: 15px;
+            border-radius: 5px;
+            margin-bottom: 20px;
+            box-shadow: 0 2px 4px rgba(0,0,0,0.1);
+        }
+        table {
+            border-collapse: collapse;
+            width: 100%;
+            background-color: white;
+            box-shadow: 0 2px 4px rgba(0,0,0,0.1);
+        }
+        th, td {
+            border: 1px solid #ddd;
+            padding: 12px;
+            text-align: left;
+        }
+        th {
+            background-color: #4CAF50;
+            color: white;
+            font-weight: bold;
+        }
+        tr:nth-child(even) {
+            background-color: #f9f9f9;
+        }
+        tr:hover {
+            background-color: #f5f5f5;
+        }
+        .present { color: #4CAF50; font-weight: bold; }
+        .absent { color: #f44336; font-weight: bold; }
+        .not-recorded { color: #9e9e9e; font-weight: bold; }
+        .footer {
+            text-align: center;
+            margin-top: 20px;
+            color: #666;
+            font-size: 12px;
+        }
+    </style>
+</head>
+<body>
+    <div class="header">
+        <h1>Attendance Report</h1>
+        <h2>KOH - Foundry 10/08</h2>
+    </div>
+    
+    <div class="stats">
+        <h3>Summary</h3>
+        <p><strong>Event Type:</strong> Foundry</p>
+        <p><strong>Event Date:</strong> 2025-08-10</p>
+        <p><strong>Export Date:</strong> 2025-08-10 21:55:32</p>
+        <p><strong>Total Players:</strong> 31</p>
+        <p>
+            <span class="present">Present: 25</span> | 
+            <span class="absent">Absent: 6</span>
+        </p>
+    </div>
+    
+    <table>
+        <thead>
+            <tr>
+                <th>FID</th>
+                <th>Nickname</th>
+                <th>Status</th>
+                <th>Points</th>
+                <th>Last Event Attendance</th>
+                <th>Marked By</th>
+            </tr>
+        </thead>
+        <tbody>
+            <tr>
+                <td>120030406</td>
+                <td>「Nader」</td>
+                <td class="present">Present</td>
+                <td>7,300,000</td>
+                <td>Present (07/27)</td>
+                <td>4db.</td>
+            </tr>
+            <tr>
+                <td>112492926</td>
+                <td>Anubis 01</td>
+                <td class="present">Present</td>
+                <td>2,500,000</td>
+                <td>Present (07/27)</td>
+                <td>4db.</td>
+            </tr>
+            <tr>
+                <td>83594021</td>
+                <td>「Omarx10」</td>
+                <td class="present">Present</td>
+                <td>2,500,000</td>
+                <td>Present (07/27)</td>
+                <td>4db.</td>
+            </tr>
+            <tr>
+                <td>85238702</td>
+                <td>' رهف</td>
+                <td class="present">Present</td>
+                <td>2,400,000</td>
+                <td>Present (07/27)</td>
+                <td>4db.</td>
+            </tr>
+            <tr>
+                <td>97490149</td>
+                <td>ღ̶K̶a̶r̶l̶a̶ᴸ</td>
+                <td class="present">Present</td>
+                <td>2,300,000</td>
+                <td>Present (07/27)</td>
+                <td>4db.</td>
+            </tr>
+            <tr>
+                <td>105204769</td>
+                <td>Gambler</td>
+                <td class="present">Present</td>
+                <td>2,000,000</td>
+                <td>New Player</td>
+                <td>4db.</td>
+            </tr>
+            <tr>
+                <td>115267556</td>
+                <td>Maddest</td>
+                <td class="present">Present</td>
+                <td>1,500,000</td>
+                <td>Present (07/27)</td>
+                <td>4db.</td>
+            </tr>
+            <tr>
+                <td>81136601</td>
+                <td>الصياد</td>
+                <td class="present">Present</td>
+                <td>1,500,000</td>
+                <td>Present (07/27)</td>
+                <td>4db.</td>
+            </tr>
+            <tr>
+                <td>99582074</td>
+                <td>ErenLsdİçen</td>
+                <td class="present">Present</td>
+                <td>1,500,000</td>
+                <td>Not Recorded (07/27)</td>
+                <td>4db.</td>
+            </tr>
+            <tr>
+                <td>81234607</td>
+                <td>°°UAE°°</td>
+                <td class="present">Present</td>
+                <td>1,500,000</td>
+                <td>Present (07/27)</td>
+                <td>4db.</td>
+            </tr>
+            <tr>
+                <td>80366186</td>
+                <td>「Almelaaf」</td>
+                <td class="present">Present</td>
+                <td>1,400,000</td>
+                <td>Present (07/27)</td>
+                <td>4db.</td>
+            </tr>
+            <tr>
+                <td>113117742</td>
+                <td>jordoo</td>
+                <td class="present">Present</td>
+                <td>1,000,000</td>
+                <td>Present (07/27)</td>
+                <td>4db.</td>
+            </tr>
+            <tr>
+                <td>93549994</td>
+                <td>~ Mine ~</td>
+                <td class="present">Present</td>
+                <td>1,000,000</td>
+                <td>Present (07/27)</td>
+                <td>4db.</td>
+            </tr>
+            <tr>
+                <td>98019046</td>
+                <td>BRHOOM_2004 ᴊᴏʀ</td>
+                <td class="present">Present</td>
+                <td>882,400</td>
+                <td>Present (07/27)</td>
+                <td>4db.</td>
+            </tr>
+            <tr>
+                <td>87076668</td>
+                <td>ᏀᎪᎷᎬ༒OᏙᎬᎡ</td>
+                <td class="present">Present</td>
+                <td>702,300</td>
+                <td>Present (07/27)</td>
+                <td>4db.</td>
+            </tr>
+            <tr>
+                <td>84317290</td>
+                <td>ღ̶L̶è̶o̶ᴷ</td>
+                <td class="present">Present</td>
+                <td>650,900</td>
+                <td>Present (07/27)</td>
+                <td>4db.</td>
+            </tr>
+            <tr>
+                <td>107305198</td>
+                <td>NastyBoy</td>
+                <td class="present">Present</td>
+                <td>644,200</td>
+                <td>New Player</td>
+                <td>4db.</td>
+            </tr>
+            <tr>
+                <td>106929423</td>
+                <td>TioDoChurros</td>
+                <td class="present">Present</td>
+                <td>570,900</td>
+                <td>Present (07/27)</td>
+                <td>4db.</td>
+            </tr>
+            <tr>
+                <td>93429653</td>
+                <td>×٠Ӑḍậɱ٠×</td>
+                <td class="present">Present</td>
+                <td>552,500</td>
+                <td>Not Recorded (07/27)</td>
+                <td>4db.</td>
+            </tr>
+            <tr>
+                <td>114344217</td>
+                <td>Val</td>
+                <td class="present">Present</td>
+                <td>326,200</td>
+                <td>Not Recorded (07/27)</td>
+                <td>4db.</td>
+            </tr>
+            <tr>
+                <td>117834940</td>
+                <td>AnomIk Dragoon</td>
+                <td class="present">Present</td>
+                <td>324,400</td>
+                <td>Present (07/27)</td>
+                <td>4db.</td>
+            </tr>
+            <tr>
+                <td>106142924</td>
+                <td>Diezel</td>
+                <td class="present">Present</td>
+                <td>320,300</td>
+                <td>Present (07/27)</td>
+                <td>4db.</td>
+            </tr>
+            <tr>
+                <td>126713364</td>
+                <td>BEARTHETERRIBLE</td>
+                <td class="present">Present</td>
+                <td>268,800</td>
+                <td>Present (07/27)</td>
+                <td>4db.</td>
+            </tr>
+            <tr>
+                <td>103676950</td>
+                <td>Ｄｏｄｙ</td>
+                <td class="present">Present</td>
+                <td>207,700</td>
+                <td>Not Recorded (07/27)</td>
+                <td>4db.</td>
+            </tr>
+            <tr>
+                <td>110600529</td>
+                <td>Uknown</td>
+                <td class="present">Present</td>
+                <td>1,900</td>
+                <td>New Player</td>
+                <td>4db.</td>
+            </tr>
+            <tr>
+                <td>110248688</td>
+                <td>Ximik</td>
+                <td class="absent">Absent</td>
+                <td>0</td>
+                <td>New Player</td>
+                <td>4db.</td>
+            </tr>
+            <tr>
+                <td>95617380</td>
+                <td>Em_</td>
+                <td class="absent">Absent</td>
+                <td>0</td>
+                <td>Present (07/27)</td>
+                <td>4db.</td>
+            </tr>
+            <tr>
+                <td>121570841</td>
+                <td>lordfatih01</td>
+                <td class="absent">Absent</td>
+                <td>0</td>
+                <td>Absent (07/27)</td>
+                <td>4db.</td>
+            </tr>
+            <tr>
+                <td>107055839</td>
+                <td>サɪᴠʏ</td>
+                <td class="absent">Absent</td>
+                <td>0</td>
+                <td>New Player</td>
+                <td>4db.</td>
+            </tr>
+            <tr>
+                <td>93462731</td>
+                <td>hamzawe</td>
+                <td class="absent">Absent</td>
+                <td>0</td>
+                <td>Not Recorded (07/27)</td>
+                <td>4db.</td>
+            </tr>
+            <tr>
+                <td>117508735</td>
+                <td>ʐɛʟɖǟ</td>
+                <td class="absent">Absent</td>
+                <td>0</td>
+                <td>Present (07/27)</td>
+                <td>4db.</td>
+            </tr>
+        </tbody>
+    </table>
+    
+    <div class="footer">
+        <p>Generated by Leo's Whiteout Discord Bot</p>
+    </div>
+</body>
+</html>

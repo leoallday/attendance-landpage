@@ -2,12 +2,16 @@
 let attendanceFiles = [];
 let filteredFiles = [];
 let isDarkMode = false;
+let currentCategory = '';
+let isFullscreen = false;
 
 // Initialize the application
 document.addEventListener('DOMContentLoaded', function() {
     initializeDarkMode();
     loadAttendanceFiles();
     setupEventListeners();
+    setupKeyboardShortcuts();
+    updateHeaderStats();
 });
 
 // Dark Mode Management
@@ -61,9 +65,17 @@ function toggleDarkMode() {
 // Set up event listeners
 function setupEventListeners() {
     const attendanceSelect = document.getElementById('attendanceSelect');
+    const categoryFilter = document.getElementById('categoryFilter');
     const searchInput = document.getElementById('searchInput');
+    const clearSearch = document.getElementById('clearSearch');
     const refreshButton = document.getElementById('refreshButton');
+    const exportButton = document.getElementById('exportButton');
     const darkModeToggle = document.getElementById('darkModeToggle');
+    const helpButton = document.getElementById('helpButton');
+    const closeHelpModal = document.getElementById('closeHelpModal');
+    const helpModal = document.getElementById('helpModal');
+    const fullscreenButton = document.getElementById('fullscreenButton');
+    const printButton = document.getElementById('printButton');
 
     attendanceSelect.addEventListener('change', function() {
         const selectedFile = this.value;
@@ -74,17 +86,28 @@ function setupEventListeners() {
         }
     });
 
+    categoryFilter.addEventListener('change', function() {
+        currentCategory = this.value;
+        filterFiles();
+    });
+
     searchInput.addEventListener('input', function() {
-        filterFiles(this.value);
+        filterFiles();
+    });
+
+    clearSearch.addEventListener('click', function() {
+        searchInput.value = '';
+        filterFiles();
+        searchInput.focus();
     });
 
     refreshButton.addEventListener('click', refreshRecords);
 
+    exportButton.addEventListener('click', exportCurrentRecord);
+
     // Dark mode toggle
     if (darkModeToggle) {
         darkModeToggle.addEventListener('click', toggleDarkMode);
-
-        // Keyboard accessibility
         darkModeToggle.addEventListener('keydown', function(e) {
             if (e.key === 'Enter' || e.key === ' ') {
                 e.preventDefault();
@@ -92,6 +115,68 @@ function setupEventListeners() {
             }
         });
     }
+
+    // Help modal
+    if (helpButton) {
+        helpButton.addEventListener('click', showHelpModal);
+        helpButton.addEventListener('keydown', function(e) {
+            if (e.key === 'Enter' || e.key === ' ') {
+                e.preventDefault();
+                showHelpModal();
+            }
+        });
+    }
+
+    if (closeHelpModal) {
+        closeHelpModal.addEventListener('click', hideHelpModal);
+    }
+
+    if (helpModal) {
+        helpModal.addEventListener('click', function(e) {
+            if (e.target === helpModal) {
+                hideHelpModal();
+            }
+        });
+    }
+
+    // Fullscreen and print buttons
+    if (fullscreenButton) {
+        fullscreenButton.addEventListener('click', toggleFullscreen);
+    }
+
+    if (printButton) {
+        printButton.addEventListener('click', printCurrentRecord);
+    }
+
+    // Close modal on escape
+    document.addEventListener('keydown', function(e) {
+        if (e.key === 'Escape') {
+            hideHelpModal();
+        }
+    });
+}
+
+// Keyboard shortcuts
+function setupKeyboardShortcuts() {
+    document.addEventListener('keydown', function(e) {
+        // Ctrl/Cmd + K to focus search
+        if ((e.ctrlKey || e.metaKey) && e.key === 'k') {
+            e.preventDefault();
+            document.getElementById('searchInput').focus();
+        }
+        
+        // Ctrl/Cmd + F to toggle fullscreen
+        if ((e.ctrlKey || e.metaKey) && e.key === 'f') {
+            e.preventDefault();
+            toggleFullscreen();
+        }
+        
+        // Ctrl/Cmd + P to print
+        if ((e.ctrlKey || e.metaKey) && e.key === 'p') {
+            e.preventDefault();
+            printCurrentRecord();
+        }
+    });
 }
 
 // Load and discover attendance files
@@ -107,6 +192,8 @@ async function loadAttendanceFiles() {
         filteredFiles = [...attendanceFiles];
 
         populateDropdown();
+        populateCategoryFilter();
+        updateHeaderStats();
         hideMessage();
 
         if (attendanceFiles.length === 0) {
@@ -137,6 +224,9 @@ async function getAttendanceFilesList() {
 async function discoverFiles() {
     // Fallback: For GitHub Pages compatibility, check for files using a predefined list
     const potentialFiles = [
+        'attendance-2025-08-10.html',
+        'attendance-2025-08-09.html',
+        'attendance-2025-07-27.html',
         'attendance-2025-07-13.html',
         'attendance-2025-07-12.html',
         'attendance-2025-06-29.html',
@@ -173,7 +263,6 @@ async function discoverFiles() {
 
     return existingFiles;
 }
-
 
 // Validate and format files from manifest
 async function validateAndFormatManifestFiles(manifestFiles) {
@@ -261,21 +350,57 @@ function populateDropdown() {
         const option = document.createElement('option');
         option.value = file.filename;
         option.textContent = file.displayName;
+        if (file.description) {
+            option.title = file.description;
+        }
         select.appendChild(option);
     });
 }
 
-// Filter files based on search input
-function filterFiles(searchTerm) {
-    if (!searchTerm.trim()) {
-        filteredFiles = [...attendanceFiles];
-    } else {
-        const term = searchTerm.toLowerCase();
-        filteredFiles = attendanceFiles.filter(file =>
-            file.displayName.toLowerCase().includes(term) ||
-            file.filename.toLowerCase().includes(term)
-        );
+// Populate category filter
+function populateCategoryFilter() {
+    const categoryFilter = document.getElementById('categoryFilter');
+    const categories = new Set();
+    
+    attendanceFiles.forEach(file => {
+        if (file.category) {
+            categories.add(file.category);
+        }
+    });
+
+    // Clear existing options except the first one
+    while (categoryFilter.children.length > 1) {
+        categoryFilter.removeChild(categoryFilter.lastChild);
     }
+
+    // Add categories
+    Array.from(categories).sort().forEach(category => {
+        const option = document.createElement('option');
+        option.value = category;
+        option.textContent = formatCategoryName(category);
+        categoryFilter.appendChild(option);
+    });
+}
+
+// Format category name for display
+function formatCategoryName(category) {
+    return category.charAt(0).toUpperCase() + category.slice(1);
+}
+
+// Filter files based on search input and category
+function filterFiles() {
+    const searchTerm = document.getElementById('searchInput').value.toLowerCase();
+    
+    filteredFiles = attendanceFiles.filter(file => {
+        const matchesSearch = !searchTerm || 
+            file.displayName.toLowerCase().includes(searchTerm) ||
+            file.filename.toLowerCase().includes(searchTerm) ||
+            (file.description && file.description.toLowerCase().includes(searchTerm));
+        
+        const matchesCategory = !currentCategory || file.category === currentCategory;
+        
+        return matchesSearch && matchesCategory;
+    });
 
     populateDropdown();
 
@@ -286,6 +411,23 @@ function filterFiles(searchTerm) {
         select.value = '';
         showNoSelection();
     }
+
+    updateHeaderStats();
+}
+
+// Update header statistics
+function updateHeaderStats() {
+    const totalRecords = document.getElementById('totalRecords');
+    const totalCategories = document.getElementById('totalCategories');
+    
+    if (totalRecords) {
+        totalRecords.textContent = attendanceFiles.length;
+    }
+    
+    if (totalCategories) {
+        const categories = new Set(attendanceFiles.map(f => f.category).filter(Boolean));
+        totalCategories.textContent = categories.size;
+    }
 }
 
 // Load and display selected attendance record
@@ -293,10 +435,13 @@ function loadAttendanceRecord(filename) {
     showLoading();
 
     const iframe = document.getElementById('attendanceFrame');
+    const selectedFile = attendanceFiles.find(f => f.filename === filename);
+    
     iframe.src = filename;
 
     iframe.onload = function() {
         showAttendanceFrame();
+        updateCurrentRecordInfo(selectedFile);
         // Apply dark mode to the loaded iframe content
         setTimeout(() => applyDarkModeToIframe(), 100);
     };
@@ -304,6 +449,26 @@ function loadAttendanceRecord(filename) {
     iframe.onerror = function() {
         showMessage(`Error loading attendance record: ${filename}`, 'error');
     };
+}
+
+// Update current record information
+function updateCurrentRecordInfo(file) {
+    const titleElement = document.getElementById('currentRecordTitle');
+    const dateElement = document.getElementById('currentRecordDate');
+    
+    if (titleElement && file) {
+        titleElement.textContent = file.displayName;
+    }
+    
+    if (dateElement && file && file.date) {
+        const date = new Date(file.date);
+        dateElement.textContent = date.toLocaleDateString('en-US', {
+            year: 'numeric',
+            month: 'long',
+            day: 'numeric',
+            timeZone: 'UTC'
+        });
+    }
 }
 
 // Apply dark mode styles to iframe content
@@ -488,22 +653,99 @@ function applyDarkModeToIframe() {
 function showNoSelection() {
     document.getElementById('noSelection').style.display = 'block';
     document.getElementById('loadingMessage').style.display = 'none';
-    document.getElementById('attendanceFrame').style.display = 'none';
+    document.getElementById('attendanceContainer').style.display = 'none';
     hideMessage();
 }
 
 function showLoading() {
     document.getElementById('noSelection').style.display = 'none';
     document.getElementById('loadingMessage').style.display = 'block';
-    document.getElementById('attendanceFrame').style.display = 'none';
+    document.getElementById('attendanceContainer').style.display = 'none';
     hideMessage();
 }
 
 function showAttendanceFrame() {
     document.getElementById('noSelection').style.display = 'none';
     document.getElementById('loadingMessage').style.display = 'none';
-    document.getElementById('attendanceFrame').style.display = 'block';
+    document.getElementById('attendanceContainer').style.display = 'block';
     hideMessage();
+}
+
+// Help modal functions
+function showHelpModal() {
+    const modal = document.getElementById('helpModal');
+    if (modal) {
+        modal.style.display = 'flex';
+        modal.focus();
+    }
+}
+
+function hideHelpModal() {
+    const modal = document.getElementById('helpModal');
+    if (modal) {
+        modal.style.display = 'none';
+    }
+}
+
+// Fullscreen functions
+function toggleFullscreen() {
+    const iframe = document.getElementById('attendanceFrame');
+    const fullscreenButton = document.getElementById('fullscreenButton');
+    
+    if (!iframe) return;
+    
+    if (!isFullscreen) {
+        if (iframe.requestFullscreen) {
+            iframe.requestFullscreen();
+        } else if (iframe.webkitRequestFullscreen) {
+            iframe.webkitRequestFullscreen();
+        } else if (iframe.msRequestFullscreen) {
+            iframe.msRequestFullscreen();
+        }
+        isFullscreen = true;
+        if (fullscreenButton) {
+            fullscreenButton.innerHTML = '<span class="btn-icon">⛶</span><span class="btn-text">Exit Fullscreen</span>';
+        }
+    } else {
+        if (document.exitFullscreen) {
+            document.exitFullscreen();
+        } else if (document.webkitExitFullscreen) {
+            document.webkitExitFullscreen();
+        } else if (document.msExitFullscreen) {
+            document.msExitFullscreen();
+        }
+        isFullscreen = false;
+        if (fullscreenButton) {
+            fullscreenButton.innerHTML = '<span class="btn-icon">⛶</span><span class="btn-text">Fullscreen</span>';
+        }
+    }
+}
+
+// Print function
+function printCurrentRecord() {
+    const iframe = document.getElementById('attendanceFrame');
+    if (iframe && iframe.src) {
+        const printWindow = window.open(iframe.src, '_blank');
+        if (printWindow) {
+            printWindow.onload = function() {
+                printWindow.print();
+            };
+        }
+    } else {
+        showMessage('No record selected to print', 'error');
+    }
+}
+
+// Export function
+function exportCurrentRecord() {
+    const selectedFile = document.getElementById('attendanceSelect').value;
+    if (!selectedFile) {
+        showMessage('No record selected to export', 'error');
+        return;
+    }
+    
+    // For now, just show a message. This could be expanded to export as PDF, CSV, etc.
+    showMessage('Export functionality coming soon!', 'info');
 }
 
 // Message display functions
@@ -533,10 +775,13 @@ function hideMessage() {
 function refreshRecords() {
     const select = document.getElementById('attendanceSelect');
     const searchInput = document.getElementById('searchInput');
+    const categoryFilter = document.getElementById('categoryFilter');
 
     // Reset UI
     select.value = '';
     searchInput.value = '';
+    categoryFilter.value = '';
+    currentCategory = '';
     showNoSelection();
 
     // Reload files

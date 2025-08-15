@@ -4,7 +4,10 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Attendance System - Records Viewer</title>
+    <meta name="description" content="View and manage attendance records with advanced filtering and search capabilities">
+    <meta name="keywords" content="attendance, records, viewer, management">
     <link rel="stylesheet" href="style.css">
+    <link rel="icon" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'><text y='.9em' font-size='90'>📋</text></svg>">
 </head>
 <body>
     <div class="container">
@@ -12,17 +15,40 @@
             <div class="header-content">
                 <div class="header-text">
                     <h1>📋 Attendance Records</h1>
-                    <p>View and manage attendance records</p>
+                    <p>View and manage attendance records with advanced filtering</p>
+                    <div class="header-stats" id="headerStats">
+                        <span class="stat-item">
+                            <span class="stat-number" id="totalRecords">0</span>
+                            <span class="stat-label">Total Records</span>
+                        </span>
+                        <span class="stat-item">
+                            <span class="stat-number" id="totalCategories">0</span>
+                            <span class="stat-label">Categories</span>
+                        </span>
+                    </div>
                 </div>
-                <button id="darkModeToggle" class="dark-mode-toggle" aria-label="Toggle dark mode" title="Toggle dark mode">
-                    <span class="toggle-icon">🌙</span>
-                    <span class="toggle-text">Dark Mode</span>
-                </button>
+                <div class="header-actions">
+                    <button id="darkModeToggle" class="dark-mode-toggle" aria-label="Toggle dark mode" title="Toggle dark mode">
+                        <span class="toggle-icon">🌙</span>
+                        <span class="toggle-text">Dark Mode</span>
+                    </button>
+                    <button id="helpButton" class="help-button" aria-label="Show help information" title="Help">
+                        <span class="help-icon">❓</span>
+                        <span class="help-text">Help</span>
+                    </button>
+                </div>
             </div>
         </header>
 
         <div class="controls">
             <div class="control-group">
+                <div class="control-item">
+                    <label for="categoryFilter">Filter by Category:</label>
+                    <select id="categoryFilter" aria-label="Filter attendance records by category">
+                        <option value="">All Categories</option>
+                    </select>
+                </div>
+
                 <div class="control-item">
                     <label for="attendanceSelect">Select Attendance Record:</label>
                     <select id="attendanceSelect" aria-label="Select an attendance record to view">
@@ -32,12 +58,24 @@
 
                 <div class="control-item">
                     <label for="searchInput">Search Records:</label>
-                    <input type="text" id="searchInput" placeholder="Search by date or name..." aria-label="Search for an attendance record">
+                    <div class="search-container">
+                        <input type="text" id="searchInput" placeholder="Search by date, name, or description..." aria-label="Search for an attendance record">
+                        <button id="clearSearch" class="clear-search" aria-label="Clear search" title="Clear search">✕</button>
+                    </div>
                 </div>
 
                 <div class="control-item">
                     <label>&nbsp;</label>
-                    <button id="refreshButton" class="btn" aria-label="Refresh the list of attendance records">🔄 Refresh</button>
+                    <div class="button-group">
+                        <button id="refreshButton" class="btn btn-primary" aria-label="Refresh the list of attendance records">
+                            <span class="btn-icon">🔄</span>
+                            <span class="btn-text">Refresh</span>
+                        </button>
+                        <button id="exportButton" class="btn btn-secondary" aria-label="Export current selection" title="Export">
+                            <span class="btn-icon">📤</span>
+                            <span class="btn-text">Export</span>
+                        </button>
+                    </div>
                 </div>
             </div>
         </div>
@@ -46,18 +84,86 @@
             <div id="messageDisplay" role="alert" aria-live="polite" style="display:none;"></div>
 
             <div id="noSelection" class="no-selection">
-                <i aria-hidden="true">📄</i>
-                <h3>No Record Selected</h3>
-                <p>Please select an attendance record from the dropdown above to view its contents.</p>
+                <div class="no-selection-content">
+                    <div class="no-selection-icon">📄</div>
+                    <h3>No Record Selected</h3>
+                    <p>Please select an attendance record from the dropdown above to view its contents.</p>
+                    <div class="no-selection-actions">
+                        <button class="btn btn-outline" onclick="document.getElementById('attendanceSelect').focus()">
+                            <span class="btn-icon">🔍</span>
+                            Browse Records
+                        </button>
+                    </div>
+                </div>
             </div>
 
             <div id="loadingMessage" class="loading" style="display: none;">
-                <h3>Loading attendance record...</h3>
-                <p>Please wait while we load the selected file.</p>
+                <div class="loading-content">
+                    <div class="loading-spinner"></div>
+                    <h3>Loading attendance record...</h3>
+                    <p>Please wait while we load the selected file.</p>
+                </div>
             </div>
 
-            <iframe id="attendanceFrame" class="attendance-frame" style="display: none;"
-                    title="Attendance Record Viewer" aria-label="Content of the selected attendance file"></iframe>
+            <div id="attendanceContainer" class="attendance-container" style="display: none;">
+                <div class="attendance-header">
+                    <div class="attendance-info">
+                        <h2 id="currentRecordTitle">Attendance Record</h2>
+                        <p id="currentRecordDate"></p>
+                    </div>
+                    <div class="attendance-actions">
+                        <button id="fullscreenButton" class="btn btn-outline" aria-label="Toggle fullscreen view">
+                            <span class="btn-icon">⛶</span>
+                            <span class="btn-text">Fullscreen</span>
+                        </button>
+                        <button id="printButton" class="btn btn-outline" aria-label="Print current record">
+                            <span class="btn-icon">🖨️</span>
+                            <span class="btn-text">Print</span>
+                        </button>
+                    </div>
+                </div>
+                <iframe id="attendanceFrame" class="attendance-frame"
+                        title="Attendance Record Viewer" aria-label="Content of the selected attendance file"></iframe>
+            </div>
+        </div>
+
+        <!-- Help Modal -->
+        <div id="helpModal" class="modal" style="display: none;">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h3>Help & Instructions</h3>
+                    <button id="closeHelpModal" class="modal-close" aria-label="Close help modal">✕</button>
+                </div>
+                <div class="modal-body">
+                    <div class="help-section">
+                        <h4>📋 How to Use</h4>
+                        <ul>
+                            <li><strong>Filter by Category:</strong> Use the category dropdown to filter records by type (Foundry, Canyon, etc.)</li>
+                            <li><strong>Select Record:</strong> Choose an attendance record from the dropdown to view its contents</li>
+                            <li><strong>Search:</strong> Use the search box to find records by date, name, or description</li>
+                            <li><strong>Refresh:</strong> Click the refresh button to reload the list of available records</li>
+                        </ul>
+                    </div>
+                    <div class="help-section">
+                        <h4>🎨 Features</h4>
+                        <ul>
+                            <li><strong>Dark Mode:</strong> Toggle between light and dark themes for better viewing</li>
+                            <li><strong>Fullscreen:</strong> View records in fullscreen mode for better readability</li>
+                            <li><strong>Print:</strong> Print the current attendance record</li>
+                            <li><strong>Export:</strong> Export record data (coming soon)</li>
+                        </ul>
+                    </div>
+                    <div class="help-section">
+                        <h4>🔧 Keyboard Shortcuts</h4>
+                        <ul>
+                            <li><kbd>Ctrl/Cmd + K</kbd> - Focus search box</li>
+                            <li><kbd>Ctrl/Cmd + F</kbd> - Toggle fullscreen</li>
+                            <li><kbd>Ctrl/Cmd + P</kbd> - Print current record</li>
+                            <li><kbd>Escape</kbd> - Close modals</li>
+                        </ul>
+                    </div>
+                </div>
+            </div>
         </div>
     </div>
 

@@ -737,15 +737,129 @@ function printCurrentRecord() {
 }
 
 // Export function
-function exportCurrentRecord() {
+async function exportCurrentRecord() {
     const selectedFile = document.getElementById('attendanceSelect').value;
     if (!selectedFile) {
         showMessage('No record selected to export', 'error');
         return;
     }
     
-    // For now, just show a message. This could be expanded to export as PDF, CSV, etc.
-    showMessage('Export functionality coming soon!', 'info');
+    const exportButton = document.getElementById('exportButton');
+    const originalText = exportButton.innerHTML;
+    
+    try {
+        // Show loading state
+        exportButton.innerHTML = '<span class="btn-icon">⏳</span><span class="btn-text">Generating...</span>';
+        exportButton.disabled = true;
+        
+        showMessage('Generating PNG export...', 'info');
+        
+        const iframe = document.getElementById('attendanceFrame');
+        if (!iframe || !iframe.contentDocument) {
+            showMessage('Cannot access iframe content for export', 'error');
+            return;
+        }
+
+        // Load html2canvas library dynamically if not already loaded
+        if (typeof html2canvas === 'undefined') {
+            await loadHtml2Canvas();
+        }
+
+        // Get the iframe document
+        const iframeDoc = iframe.contentDocument || iframe.contentWindow.document;
+        const iframeBody = iframeDoc.body;
+
+        if (!iframeBody) {
+            showMessage('Cannot access iframe body for export', 'error');
+            return;
+        }
+
+        // Create export options
+        const exportOptions = {
+            allowTaint: true,
+            useCORS: true,
+            scale: 2, // Higher quality
+            backgroundColor: isDarkMode ? '#1e1e1e' : '#ffffff',
+            width: iframeBody.scrollWidth,
+            height: iframeBody.scrollHeight,
+            scrollX: 0,
+            scrollY: 0,
+            windowWidth: iframeBody.scrollWidth,
+            windowHeight: iframeBody.scrollHeight
+        };
+
+        // Generate the canvas
+        const canvas = await html2canvas(iframeBody, exportOptions);
+        
+        // Convert to PNG and download
+        const selectedFileInfo = attendanceFiles.find(f => f.filename === selectedFile);
+        const fileName = selectedFileInfo ? 
+            selectedFileInfo.displayName.replace(/[^a-zA-Z0-9\s-]/g, '').replace(/\s+/g, '_') : 
+            'attendance_record';
+        
+        downloadCanvasAsPNG(canvas, `${fileName}_export.png`);
+        
+        showMessage('PNG export completed successfully!', 'info');
+        
+    } catch (error) {
+        console.error('Export error:', error);
+        showMessage('Error generating PNG export. Please try again.', 'error');
+    } finally {
+        // Restore button state
+        exportButton.innerHTML = originalText;
+        exportButton.disabled = false;
+    }
+}
+
+// Load html2canvas library dynamically
+async function loadHtml2Canvas() {
+    return new Promise((resolve, reject) => {
+        if (typeof html2canvas !== 'undefined') {
+            resolve();
+            return;
+        }
+
+        const script = document.createElement('script');
+        script.src = 'https://cdnjs.cloudflare.com/ajax/libs/html2canvas/1.4.1/html2canvas.min.js';
+        script.integrity = 'sha512-BNaRQnYzYi2kqQfW7uWg0J/Vm9XxJpKqVhF7XEVt9Gr8Rfs4Vx9i5Y8bwm0YXY5TavjHqoQhSqpR+0A6Y2w==';
+        script.crossOrigin = 'anonymous';
+        
+        script.onload = () => resolve();
+        script.onerror = () => reject(new Error('Failed to load html2canvas library'));
+        
+        document.head.appendChild(script);
+    });
+}
+
+// Download canvas as PNG
+function downloadCanvasAsPNG(canvas, filename) {
+    try {
+        // Convert canvas to blob
+        canvas.toBlob((blob) => {
+            if (!blob) {
+                showMessage('Error creating PNG file', 'error');
+                return;
+            }
+
+            // Create download link
+            const url = URL.createObjectURL(blob);
+            const link = document.createElement('a');
+            link.href = url;
+            link.download = filename;
+            
+            // Trigger download
+            document.body.appendChild(link);
+            link.click();
+            document.body.removeChild(link);
+            
+            // Clean up
+            URL.revokeObjectURL(url);
+        }, 'image/png', 0.95);
+        
+    } catch (error) {
+        console.error('Download error:', error);
+        showMessage('Error downloading PNG file', 'error');
+    }
 }
 
 // Message display functions

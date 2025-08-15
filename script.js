@@ -103,7 +103,10 @@ function setupEventListeners() {
 
     refreshButton.addEventListener('click', refreshRecords);
 
-    exportButton.addEventListener('click', exportCurrentRecord);
+    if (exportButton) {
+        exportButton.addEventListener('click', exportCurrentRecord);
+        console.log('Export button event listener added');
+    }
 
     // Dark mode toggle
     if (darkModeToggle) {
@@ -738,6 +741,8 @@ function printCurrentRecord() {
 
 // Export function
 async function exportCurrentRecord() {
+    console.log('Export function called'); // Debug log
+    
     const selectedFile = document.getElementById('attendanceSelect').value;
     if (!selectedFile) {
         showMessage('No record selected to export', 'error');
@@ -755,8 +760,8 @@ async function exportCurrentRecord() {
         showMessage('Generating PNG export...', 'info');
         
         const iframe = document.getElementById('attendanceFrame');
-        if (!iframe || !iframe.contentDocument) {
-            showMessage('Cannot access iframe content for export', 'error');
+        if (!iframe) {
+            showMessage('No iframe found for export', 'error');
             return;
         }
 
@@ -765,9 +770,25 @@ async function exportCurrentRecord() {
             await loadHtml2Canvas();
         }
 
-        // Get the iframe document
-        const iframeDoc = iframe.contentDocument || iframe.contentWindow.document;
-        const iframeBody = iframeDoc.body;
+        // Try to access iframe content
+        let iframeDoc, iframeBody;
+        try {
+            iframeDoc = iframe.contentDocument || iframe.contentWindow.document;
+            iframeBody = iframeDoc.body;
+        } catch (error) {
+            console.error('Cannot access iframe content due to CORS:', error);
+            
+            // Offer alternative: open in new window for manual save
+            const selectedFileInfo = attendanceFiles.find(f => f.filename === selectedFile);
+            const fileName = selectedFileInfo ? selectedFileInfo.displayName : 'attendance_record';
+            
+            if (confirm('Cannot automatically export due to security restrictions. Would you like to open the record in a new window where you can use browser save/print functions?')) {
+                window.open(selectedFile, '_blank');
+            }
+            
+            showMessage('Cannot access iframe content due to security restrictions. Try opening the record in a new tab and using browser print/save.', 'error');
+            return;
+        }
 
         if (!iframeBody) {
             showMessage('Cannot access iframe body for export', 'error');
@@ -883,6 +904,14 @@ function hideMessage() {
         messageContainer.innerHTML = '';
         messageContainer.style.display = 'none';
     }
+}
+
+// Test function for debugging
+function testExport() {
+    console.log('Test export function called');
+    console.log('exportCurrentRecord function exists:', typeof exportCurrentRecord);
+    console.log('Export button exists:', !!document.getElementById('exportButton'));
+    console.log('Selected file:', document.getElementById('attendanceSelect').value);
 }
 
 // Refresh records function

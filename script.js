@@ -759,68 +759,70 @@ async function exportCurrentRecord() {
         
         showMessage('Generating PNG export...', 'info');
         
+        // Try direct export first (for same-origin files)
         const iframe = document.getElementById('attendanceFrame');
-        if (!iframe) {
-            showMessage('No iframe found for export', 'error');
-            return;
-        }
+        if (iframe && iframe.src) {
+            try {
+                // Load html2canvas library dynamically if not already loaded
+                if (typeof html2canvas === 'undefined') {
+                    await loadHtml2Canvas();
+                }
 
-        // Load html2canvas library dynamically if not already loaded
-        if (typeof html2canvas === 'undefined') {
-            await loadHtml2Canvas();
-        }
+                // Try to access iframe content
+                let iframeDoc, iframeBody;
+                try {
+                    iframeDoc = iframe.contentDocument || iframe.contentWindow.document;
+                    iframeBody = iframeDoc.body;
+                } catch (error) {
+                    console.error('Cannot access iframe content due to CORS:', error);
+                    throw new Error('CORS_BLOCKED');
+                }
 
-        // Try to access iframe content
-        let iframeDoc, iframeBody;
-        try {
-            iframeDoc = iframe.contentDocument || iframe.contentWindow.document;
-            iframeBody = iframeDoc.body;
-        } catch (error) {
-            console.error('Cannot access iframe content due to CORS:', error);
-            
-            // Offer alternative: open in new window for manual save
-            const selectedFileInfo = attendanceFiles.find(f => f.filename === selectedFile);
-            const fileName = selectedFileInfo ? selectedFileInfo.displayName : 'attendance_record';
-            
-            if (confirm('Cannot automatically export due to security restrictions. Would you like to open the record in a new window where you can use browser save/print functions?')) {
-                window.open(selectedFile, '_blank');
+                if (!iframeBody) {
+                    throw new Error('NO_IFRAME_BODY');
+                }
+
+                // Create export options
+                const exportOptions = {
+                    allowTaint: true,
+                    useCORS: true,
+                    scale: 2, // Higher quality
+                    backgroundColor: isDarkMode ? '#1e1e1e' : '#ffffff',
+                    width: iframeBody.scrollWidth,
+                    height: iframeBody.scrollHeight,
+                    scrollX: 0,
+                    scrollY: 0,
+                    windowWidth: iframeBody.scrollWidth,
+                    windowHeight: iframeBody.scrollHeight
+                };
+
+                // Generate the canvas
+                const canvas = await html2canvas(iframeBody, exportOptions);
+                
+                // Convert to PNG and download
+                const selectedFileInfo = attendanceFiles.find(f => f.filename === selectedFile);
+                const fileName = selectedFileInfo ? 
+                    selectedFileInfo.displayName.replace(/[^a-zA-Z0-9\s-]/g, '').replace(/\s+/g, '_') : 
+                    'attendance_record';
+                
+                downloadCanvasAsPNG(canvas, `${fileName}_export.png`);
+                
+                showMessage('PNG export completed successfully!', 'info');
+                return;
+                
+            } catch (error) {
+                console.error('Direct export failed:', error);
+                if (error.message === 'CORS_BLOCKED') {
+                    // Fall back to alternative method
+                    await exportUsingAlternativeMethod(selectedFile);
+                    return;
+                }
+                throw error;
             }
-            
-            showMessage('Cannot access iframe content due to security restrictions. Try opening the record in a new tab and using browser print/save.', 'error');
-            return;
         }
-
-        if (!iframeBody) {
-            showMessage('Cannot access iframe body for export', 'error');
-            return;
-        }
-
-        // Create export options
-        const exportOptions = {
-            allowTaint: true,
-            useCORS: true,
-            scale: 2, // Higher quality
-            backgroundColor: isDarkMode ? '#1e1e1e' : '#ffffff',
-            width: iframeBody.scrollWidth,
-            height: iframeBody.scrollHeight,
-            scrollX: 0,
-            scrollY: 0,
-            windowWidth: iframeBody.scrollWidth,
-            windowHeight: iframeBody.scrollHeight
-        };
-
-        // Generate the canvas
-        const canvas = await html2canvas(iframeBody, exportOptions);
         
-        // Convert to PNG and download
-        const selectedFileInfo = attendanceFiles.find(f => f.filename === selectedFile);
-        const fileName = selectedFileInfo ? 
-            selectedFileInfo.displayName.replace(/[^a-zA-Z0-9\s-]/g, '').replace(/\s+/g, '_') : 
-            'attendance_record';
-        
-        downloadCanvasAsPNG(canvas, `${fileName}_export.png`);
-        
-        showMessage('PNG export completed successfully!', 'info');
+        // If no iframe or iframe failed, use alternative method
+        await exportUsingAlternativeMethod(selectedFile);
         
     } catch (error) {
         console.error('Export error:', error);
@@ -829,6 +831,69 @@ async function exportCurrentRecord() {
         // Restore button state
         exportButton.innerHTML = originalText;
         exportButton.disabled = false;
+    }
+}
+
+// Alternative export method
+async function exportUsingAlternativeMethod(selectedFile) {
+    const selectedFileInfo = attendanceFiles.find(f => f.filename === selectedFile);
+    const fileName = selectedFileInfo ? selectedFileInfo.displayName : 'attendance_record';
+    
+    // Show user options
+    const userChoice = confirm(
+        'Automatic PNG export is not available due to security restrictions.\n\n' +
+        'Would you like to:\n' +
+        '1. Open the record in a new window for manual save/print\n' +
+        '2. Try a different export method\n\n' +
+        'Click OK to open in new window, Cancel to try alternative method.'
+    );
+    
+    if (userChoice) {
+        // Open in new window for manual save
+        const newWindow = window.open(selectedFile, '_blank');
+        if (newWindow) {
+            showMessage('Record opened in new window. Use browser save/print functions.', 'info');
+        } else {
+            showMessage('Popup blocked. Please allow popups and try again.', 'error');
+        }
+    } else {
+        // Try alternative method - create a simple export
+        await createSimpleExport(selectedFile, fileName);
+    }
+}
+
+// Create a simple export using fetch
+async function createSimpleExport(selectedFile, fileName) {
+    try {
+        showMessage('Creating alternative export...', 'info');
+        
+        // Fetch the HTML content
+        const response = await fetch(selectedFile);
+        if (!response.ok) {
+            throw new Error('Failed to fetch file content');
+        }
+        
+        const htmlContent = await response.text();
+        
+        // Create a new window with the content
+        const exportWindow = window.open('', '_blank');
+        if (!exportWindow) {
+            showMessage('Popup blocked. Please allow popups and try again.', 'error');
+            return;
+        }
+        
+        // Write the content to the new window
+        exportWindow.document.write(htmlContent);
+        exportWindow.document.close();
+        
+        // Wait for content to load
+        exportWindow.onload = function() {
+            showMessage('Export window ready. Use browser save/print functions.', 'info');
+        };
+        
+    } catch (error) {
+        console.error('Alternative export failed:', error);
+        showMessage('Alternative export failed. Please try opening the record manually.', 'error');
     }
 }
 

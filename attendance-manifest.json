@@ -51,7 +51,15 @@
       "date": "2025-08-10",
       "description": "Foundry Battle",
       "category": "foundry"
-    }
+    },
+    {
+      "filename": "attendance-2025-08-24.html",
+      "title": "Attendance Foundry - August 24, 25",
+      "date": "2025-08-24",
+      "description": "Foundry Battle",
+      "category": "foundry"
+    },
+
   ],
   "categories": {
     "foundry": "Foundry Battle",

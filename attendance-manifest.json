@@ -65,6 +65,13 @@
       "date": "2025-09-06",
       "description": "Canyon Battle",
       "category": "canyon"
+    },
+    {
+      "filename": "attendance-2025-09-07.html",
+      "title": "Attendance Foundry - September 7, 25",
+      "date": "2025-09-07",
+      "description": "Foundry Battle",
+      "category": "foundry"
     }
 
   ],
